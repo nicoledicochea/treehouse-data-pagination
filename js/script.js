@@ -59,6 +59,61 @@ function addPagination(list) {
    })
 }
 
+
+// create search bar using nodes
+const header = document.querySelector('header')
+const label = document.createElement('label')
+label.for = 'search'
+label.className = 'student-search'
+const span = document.createElement('span')
+const input = document.createElement('input')
+input.value = ''
+input.id = 'search'
+input.placeholder = 'Search by name...'
+const button = document.createElement('button')
+button.type = 'button'
+const img = document.createElement('img')
+img.alt = 'Search icon'
+img.src = './img/icn-search.svg'
+button.append(img)
+label.append(span)
+label.append(input)
+label.append(button)
+header.append(label)
+
+input.addEventListener('input', (e) => {
+   const filteredStudentArr = []
+   const search = e.target.value.toUpperCase()
+   for (let i = 0; i < students.length; i++) {
+      const studentName = `${students[i].name.first.toUpperCase()} ${students[i].name.last.toUpperCase()}`
+      if (studentName.includes(search)) {
+         filteredStudentArr.push(students[i])
+      }
+   }
+   showPage(filteredStudentArr, 1)
+   addPagination(filteredStudentArr)
+
+   if (filteredStudentArr.length === 0) {
+      console.log('sero')
+      const h3 = document.createElement('h3')
+      h3.innerHTML = '<br>No results found.'
+      header.append(h2)
+   }
+})
+
+button.addEventListener('click', (e) => {
+   const filteredStudentArr = []
+   const search = input.value.toUpperCase()
+   for (let i = 0; i < students.length; i++) {
+      const studentName = `${students[i].name.first.toUpperCase()} ${students[i].name.last.toUpperCase()}`
+      if (studentName.includes(search)) {
+         filteredStudentArr.push(students[i])
+      }
+   }
+   showPage(filteredStudentArr, 1)
+   addPagination(filteredStudentArr)
+})
+
 // Call functions
 showPage(students, 1)
 addPagination(students)
