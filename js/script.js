@@ -1,10 +1,31 @@
+/*** 
+ * @type number - number of students to display per page
+***/
 const itemsPerPage = 9
-const students = data
-/*
-Create the `showPage` function
-This function will create and insert/append the elements needed to display a "page" of nine students
-*/
 
+/*** 
+ * @type {Object}: students - collection of all students
+   * {Object}: name
+      * {string}: title
+      * {string}: first
+      * {string}: last
+   * {string}: email
+   * {Object}: registered
+      * {string}: date
+      * {number}: age
+   * * {Object}: name
+      * {string}: large
+      * {string}: medium
+      * {string}: thumbnail
+*/
+const students = data
+
+/*** 
+ * @function showPage
+ * create and insert/append the elements needed to display a page
+ * @param {Object[]} list - students array
+   @param {number} page - the 'active' page a user is viewing 
+*/
 function showPage(list, page) {
    const start = (page * itemsPerPage) - itemsPerPage
    const end = (page * itemsPerPage) - 1
@@ -31,16 +52,15 @@ function showPage(list, page) {
    }
 }
 
-
-/*
-Create the `addPagination` function
-This function will create and insert/append the elements needed for the pagination buttons
+/*** 
+ * @function addPagination
+ * create and insert/append the elements needed for the pagination buttons
+ * @param {@bject[]} list - students array
 */
 
 function addPagination(list) {
    const totalPages = Math.ceil(list.length / itemsPerPage)
    const linkList = document.querySelector('.link-list')
-
    linkList.innerHTML = ''
    for (let i = 1; i <= totalPages; i++) {
       const button = `<li>
@@ -48,9 +68,7 @@ function addPagination(list) {
       </li>`
       linkList.insertAdjacentHTML('beforeend', button)
    }
-
    linkList.querySelector('button').className = 'active'
-
    linkList.addEventListener('click', (e) => {
       if (e.target.tagName === 'BUTTON') {
          linkList.querySelector('.active').className = ''
@@ -58,12 +76,11 @@ function addPagination(list) {
          showPage(students, e.target.innerText)
       }
    })
-
-   
 }
 
-
-// create search bar using nodes
+/*** 
+ * create and insert/append the elements needed for a search bar
+*/
 const header = document.querySelector('header')
 const label = document.createElement('label')
 label.for = 'search'
@@ -83,33 +100,19 @@ label.append(span)
 label.append(input)
 label.append(button)
 header.append(label)
+
+/*** 
+ * create and insert/append the h2 needed for 'no results' 
+*/
 const h2 = document.createElement('h2')
 h2.id = 'no-results'
 header.insertAdjacentElement('afterEnd',h2)
 
-input.addEventListener('input', (e) => {
-   const filteredStudentArr = []
-   h2.innerHTML = ''
-   const search = e.target.value.toUpperCase()
-   for (let i = 0; i < students.length; i++) {
-      const studentName = `${students[i].name.first.toUpperCase()} ${students[i].name.last.toUpperCase()}`
-      if (studentName.includes(search)) {
-         filteredStudentArr.push(students[i])
-      }
-   }
-   showPage(filteredStudentArr, 1)
-
-   if (filteredStudentArr.length === 0) {
-      h2.innerText= 'No results found.'
-      if(document.querySelector('.link-list')) {
-         document.querySelector('.link-list').innerHTML = ''
-      }
-   } else {
-      addPagination(filteredStudentArr)
-   }
-})
-
-button.addEventListener('click', (e) => {
+/*** 
+ * @function search
+ * filter the paginated data based on user input
+*/
+function search() {
    h2.innerHTML = ''
    const filteredStudentArr = []
    const search = input.value.toUpperCase()
@@ -119,7 +122,6 @@ button.addEventListener('click', (e) => {
          filteredStudentArr.push(students[i])
       }
    }
-   showPage(filteredStudentArr, 1)
    if (filteredStudentArr.length === 0) {
       h2.innerText= 'No results found.'
       if(document.querySelector('.link-list')) {
@@ -128,8 +130,27 @@ button.addEventListener('click', (e) => {
    } else {
       addPagination(filteredStudentArr)
    }
+   showPage(filteredStudentArr, 1)
+}
+
+/*** 
+ * @event
+ * filters paginated data when the value of <input> changes
+*/
+input.addEventListener('input', () => {
+   search()
 })
 
-// Call functions
+/*** 
+ * @event
+ * filters paginated data when the search button is clicked
+*/
+button.addEventListener('click', () => {
+   search()
+})
+
+/*** 
+ * initialize the page with paginated student data
+*/ 
 showPage(students, 1)
 addPagination(students)
