@@ -43,11 +43,11 @@ function addPagination(list) {
    linkList.innerHTML = ''
    for (let i = 1; i <= totalPages; i++) {
       const button = `<li>
-      <button type="button">${i}</button>
+      <button type='button'>${i}</button>
       </li>`
     linkList.insertAdjacentHTML('beforeend', button)
    }
-   
+
    linkList.querySelector('button').className = 'active'
 
    linkList.addEventListener('click', (e) => {
@@ -80,9 +80,13 @@ label.append(span)
 label.append(input)
 label.append(button)
 header.append(label)
+const h2 = document.createElement('h2')
+h2.id = 'no-results'
+header.insertAdjacentElement('afterEnd',h2)
 
 input.addEventListener('input', (e) => {
    const filteredStudentArr = []
+   h2.innerHTML = ''
    const search = e.target.value.toUpperCase()
    for (let i = 0; i < students.length; i++) {
       const studentName = `${students[i].name.first.toUpperCase()} ${students[i].name.last.toUpperCase()}`
@@ -91,13 +95,14 @@ input.addEventListener('input', (e) => {
       }
    }
    showPage(filteredStudentArr, 1)
-   addPagination(filteredStudentArr)
 
    if (filteredStudentArr.length === 0) {
-      console.log('sero')
-      const h3 = document.createElement('h3')
-      h3.innerHTML = '<br>No results found.'
-      header.append(h2)
+      h2.innerText= 'No results found.'
+      if(document.querySelector('.link-list')) {
+         document.querySelector('.link-list').remove()
+      }
+   } else {
+      addPagination(filteredStudentArr)
    }
 })
 
@@ -111,7 +116,14 @@ button.addEventListener('click', (e) => {
       }
    }
    showPage(filteredStudentArr, 1)
-   addPagination(filteredStudentArr)
+   if (filteredStudentArr.length === 0) {
+      h2.innerText= 'No results found.'
+      if(document.querySelector('.link-list')) {
+         document.querySelector('.link-list').remove()
+      }
+   } else {
+      addPagination(filteredStudentArr)
+   }
 })
 
 // Call functions

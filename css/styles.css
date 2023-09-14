@@ -219,3 +219,12 @@ header h2 {
 		box-shadow: 0 4px 16px 0 rgba(22, 42, 90, 0.09);
 	}
 }
+
+/* ----------------------- */
+
+
+#no-results {
+  margin: 40px;
+  font-size: 1.3rem;
+  text-align: center;
+}
