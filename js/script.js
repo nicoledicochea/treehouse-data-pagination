@@ -40,12 +40,13 @@ This function will create and insert/append the elements needed for the paginati
 function addPagination(list) {
    const totalPages = Math.ceil(list.length / itemsPerPage)
    const linkList = document.querySelector('.link-list')
+
    linkList.innerHTML = ''
    for (let i = 1; i <= totalPages; i++) {
       const button = `<li>
       <button type='button'>${i}</button>
       </li>`
-    linkList.insertAdjacentHTML('beforeend', button)
+      linkList.insertAdjacentHTML('beforeend', button)
    }
 
    linkList.querySelector('button').className = 'active'
@@ -57,6 +58,8 @@ function addPagination(list) {
          showPage(students, e.target.innerText)
       }
    })
+
+   
 }
 
 
@@ -99,7 +102,7 @@ input.addEventListener('input', (e) => {
    if (filteredStudentArr.length === 0) {
       h2.innerText= 'No results found.'
       if(document.querySelector('.link-list')) {
-         document.querySelector('.link-list').remove()
+         document.querySelector('.link-list').innerHTML = ''
       }
    } else {
       addPagination(filteredStudentArr)
@@ -107,6 +110,7 @@ input.addEventListener('input', (e) => {
 })
 
 button.addEventListener('click', (e) => {
+   h2.innerHTML = ''
    const filteredStudentArr = []
    const search = input.value.toUpperCase()
    for (let i = 0; i < students.length; i++) {
@@ -119,7 +123,7 @@ button.addEventListener('click', (e) => {
    if (filteredStudentArr.length === 0) {
       h2.innerText= 'No results found.'
       if(document.querySelector('.link-list')) {
-         document.querySelector('.link-list').remove()
+         document.querySelector('.link-list').innerHTML = ''
       }
    } else {
       addPagination(filteredStudentArr)
