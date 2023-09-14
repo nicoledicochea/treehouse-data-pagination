@@ -1,22 +1,10 @@
 /*** 
  * @type number - number of students to display per page
-***/
+*/
 const itemsPerPage = 9
 
 /*** 
  * @type {Object}: students - collection of all students
-   * {Object}: name
-      * {string}: title
-      * {string}: first
-      * {string}: last
-   * {string}: email
-   * {Object}: registered
-      * {string}: date
-      * {number}: age
-   * * {Object}: name
-      * {string}: large
-      * {string}: medium
-      * {string}: thumbnail
 */
 const students = data
 
